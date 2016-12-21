@@ -1,4 +1,14 @@
-from backend import datehandle as dh
-teststr='asdjaj asdjak 1978-11-10 14:01'
-struse=dh.format_datestr('asdjaj asdjak  14:01 11-11-1978')
-print(struse)
+from backend.DataRequest import DataRequest
+
+import numpy as np
+from netCDF4 import Dataset as ds
+from backend.varfuncs import condi_ind
+
+
+datastr='rr'
+lat_rng=[35, 70]
+longi_rng=[-15, 15]
+datestr=''
+
+tempy=DataRequest(datastr, lat_rng, longi_rng, datestr)
+tempy.readdata()
