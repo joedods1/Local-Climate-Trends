@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 
-# takes a list and some limits and reduces teh list and provides an index array
+# takes a list and some limits and reduces teh list and provides an index array of the entries within the limits
 def condi_ind(list, limits):
     i=0
 
@@ -34,7 +34,7 @@ def format_datestr(datestr):
     struse=''
     pdelim=''
     while p < strlen:            #first go through datstr to identify if a number or not
-        print(p)    
+        ##print(p)    
         p+=1
         if datestr[p]==numbers[0] or datestr[p]==numbers[1] or datestr[p]==numbers[2]\
         or datestr[p]==numbers[3] or datestr[p]==numbers[4] or datestr[p]==numbers[5]\
@@ -43,13 +43,13 @@ def format_datestr(datestr):
             struse+=datestr[p]        #if number add to reduced string 
             prevno=1 
             count+=1                  # count to see if groups of numbers are years or not
-            print('count='+str(count))
-            print('struse=' + struse)
+            ##print('count='+str(count))
+            ##print('struse=' + struse)
         else:
             if prevno==1:
                 delim=datestr[p]   # in non-number branch but since last entry was number this must be a delimiter
-                print('pdelim='+pdelim)
-                print('delim='+delim)
+                ##print('pdelim='+pdelim)
+               ## print('delim='+delim)
                 if delim==":":     # a : delimiter is almost exclusive to times of day hh:mm  therfore want to skip ahead and overwrite struse
                     struse=''
                     p+=2
@@ -65,12 +65,12 @@ def format_datestr(datestr):
                 
                 if  pdelim==delim:
                     if yeardef==1:
-                        print('op1='+struse)
+                        ##print('op1='+struse)
                         struse=struse + datestr[p+1:p+3] 
                         fmt='%Y'+delim+'%m'+ delim + '%d'   #if a year has been identified aswell as a repeated delim tehn format must be as shown
                         break
                     else:
-                        print('op2='+struse)
+                        ##print('op2='+struse)
                         struse=struse + datestr[p+1:p+5]
                         fmt='%d'+delim+'%m'+delim+'%Y'   #if a year hasnt been then
                         break                            #Reset count
@@ -78,7 +78,7 @@ def format_datestr(datestr):
                 count=0
                 
             prevno=0                                     
-            print('in else p=' + str(p))   
+            ##print('in else p=' + str(p))   
 
                 
     return (struse, fmt)
@@ -88,7 +88,10 @@ def format_datestr(datestr):
 def conv2jd(datestr):
     from datetime import datetime
     from jdcal import gcal2jd
+    
     (struse, fmt)=format_datestr(datestr)
     dt = datetime.strptime(struse, fmt).timetuple()
-    jd=sum(gcal2jd(dt[0], dt[1], dt[2]))
-    return jd
+    jdtup=gcal2jd(dt[0], dt[1], dt[2])
+    jd=sum(jdtup)
+    return [jd, jdtup]
+
